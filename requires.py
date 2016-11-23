@@ -3,7 +3,7 @@ from charms.reactive import hook
 from charms.reactive import scopes
 
 
-class MuninRequires(RelationBase):
+class MuninNodeRequires(RelationBase):
     scope = scopes.GLOBAL
 
     # These remote data fields will be automatically mapped to accessors
@@ -11,14 +11,14 @@ class MuninRequires(RelationBase):
     auto_accessors = ['access-network', 'db_host',
                       'ssl_ca', 'ssl_cert', 'ssl_key']
 
-    @hook('{requires:munin}-relation-joined')
+    @hook('{requires:munin-node}-relation-joined')
     def joined(self):
         self.set_state('{relation_name}.relation.joined')
 
-    @hook('{requires:munin}-relation-changed')
+    @hook('{requires:munin-node}-relation-changed')
     def changed(self):
         self.set_state('{relation_name}.available')
 
-    @hook('{requires:munin}-relation-{broken,departed}')
+    @hook('{requires:munin-node}-relation-{broken,departed}')
     def departed(self):
         self.remove_state('{relation_name}.available')
